@@ -10,8 +10,6 @@ GameOfLife is the abstracted class containing the game logic and all required ga
 
 #include "GameOfLife.h"
 
-using namespace std;
-
 /*
     Default Constructor: as a game should always have a set amount of rows and columns, this is intentionally left empty
 */
@@ -46,16 +44,16 @@ GameOfLife::~GameOfLife() {
     g: Grid to show cells from
 */
 void GameOfLife::showCells(Grid* g) {
-    cout << generation << endl;
+    std::cout << generation << std::endl;
     int rows = g->getRows(); //Defining rows and columns outside so it only runs once instead of once per loop
     int columns = g->getColumns();
     for(int i = 0; i < rows; ++i) { 
         for(int j = 0; j < columns; ++j) {
-            cout << ((g->getCell(j, i)->getIsAlive()) ? 'X' : '-'); //iterating through rows second to easily format output
+            std::cout << ((g->getCell(j, i)->getIsAlive()) ? 'X' : '-'); //iterating through rows second to easily format output
         }
-        cout << '\n'; //Formatting, using \n instead of endl to avoid flushing preemptively
+        std::cout << '\n'; //Formatting, using \n instead of endl to avoid flushing preemptively
     }
-    cout << flush;
+    std::cout << std::flush;
 }
 
 /*
@@ -63,15 +61,15 @@ void GameOfLife::showCells(Grid* g) {
     g: Grid to show cells from
     os: output file stream to output to
 */
-void GameOfLife::showCells(Grid* g, ofstream& os) {
-    os << generation << endl;
+void GameOfLife::showCells(Grid* g, std::ofstream& os) {
+    os << generation << std::endl;
     int rows = g->getRows(); //Defining rows and columns outside so it only runs once instead of once per loop
     int columns = g->getColumns();
     for(int i = 0; i < rows; ++i) { 
         for(int j = 0; j < columns; ++j) {
             os << ((g->getCell(j, i)->getIsAlive()) ? 'X' : '-'); //iterating through rows second to easily format output
         }
-        os << endl; //Formatting
+        os << std::endl; //Formatting
     }
 }
 

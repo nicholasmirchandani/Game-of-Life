@@ -5,7 +5,6 @@
 #include "Classic.h"
 #include "Donut.h"
 #include "Mirror.h"
-using namespace std;
 class GameOfLife {
     private:
         Gamemode* gamemode;
@@ -19,7 +18,7 @@ class GameOfLife {
         ~GameOfLife();
         GameOfLife(int columns, int rows, Gamemode* gamemode);
         void showCells(Grid* g);
-        void showCells(Grid* g, ofstream& os);
+        void showCells(Grid* g, std::ofstream& os);
         void start();
         void update();
         bool getHasFinished();

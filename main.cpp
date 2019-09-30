@@ -12,11 +12,10 @@ main.cpp is the driver, handling prompts and user inputs into GameOfLife
 #include <limits>
 
 //Using column/row instead of row/column because column/row gives the familiar x/y
-using namespace std;
 
 char getCharFromUser();
-int getIntFromUser(string message);
-double getDoubleFromUser(string message);
+int getIntFromUser(std::string message);
+double getDoubleFromUser(std::string message);
 void pause();
 
 int main(int argc, char** argv) {
@@ -25,7 +24,7 @@ int main(int argc, char** argv) {
     int columns;
     GameOfLife* gol;
     Gamemode* gamemode;
-    cout << "Would you classic mode ('c'), mirror mode ('m') or donut mode('d'): " << flush;
+    std::cout << "Would you classic mode ('c'), mirror mode ('m') or donut mode('d'): " << std::flush;
     char response = getCharFromUser();
     if(response == 'c') {
         gamemode = new Classic();
@@ -34,31 +33,31 @@ int main(int argc, char** argv) {
     } else if (response == 'd') {
         gamemode = new Donut();
     } else {
-        cout << "Invalid input.  Defaulting to classic mode." << endl;
+        std::cout << "Invalid input.  Defaulting to classic mode." << std::endl;
         gamemode = new Classic();
     }
-    cout << "Would you like to read from a map file ('f') or randomly generate the board ('r')? " << flush;
+    std::cout << "Would you like to read from a map file ('f') or randomly generate the board ('r')? " << std::flush;
     response = getCharFromUser();
     if(response == 'f') {
-        string filepath;
-            cout << "Enter the file path: ";
-            getline(cin, filepath);
-            ifstream is(filepath);
+        std::string filepath;
+            std::cout << "Enter the file path: ";
+            getline(std::cin, filepath);
+            std::ifstream is(filepath);
             if(is.fail()) {
-                cout << "File '" + filepath + "' could not be opened.  Exiting." << endl;
+                std::cout << "File '" + filepath + "' could not be opened.  Exiting." << std::endl;
                 exit(1);
             }
             is >> rows;
             is >> columns;
             gol = new GameOfLife(columns, rows, gamemode);
-            string line;
+            std::string line;
             getline(is, line); //Skipping empty line
             int rowNum = -1; //Starting at -1 so first loop is row 0
             while(!is.eof()) {
                 getline(is, line);
                 ++rowNum;
                 if(rowNum >= gol->getCurrent()->getRows()) {
-                    cout << "WARNING: More lines in file than expected.  Discarding additional lines." << endl;
+                    std::cout << "WARNING: More lines in file than expected.  Discarding additional lines." << std::endl;
                     break;
                 }
                 for(int i = 0; i < line.length(); ++i) {
@@ -66,7 +65,7 @@ int main(int argc, char** argv) {
                         if(line[i] == 13) {
                             break; //Silently exit if there's a return as the final character on the line, as that's expected
                         }
-                        cout << "WARNING: More characters in line " << rowNum + 3 << " than expected.  Discarding additional characters." << endl;
+                        std::cout << "WARNING: More characters in line " << rowNum + 3 << " than expected.  Discarding additional characters." << std::endl;
                         break;
                     }
                     if(line[i] == 'X') { //If character is neither X nor -, cell starts with default isAlive value of dead
@@ -99,37 +98,37 @@ int main(int argc, char** argv) {
             }
         }
     } else {
-        cout << "Input type not recognized.  Exiting." << endl;
+        std::cout << "Input type not recognized.  Exiting." << std::endl;
         exit(1);
     }
-    string unused;
-    cout << "Would you like a brief pause between generations ('p'), have to press the enter key ('e'), or output to a file ('f')?: " << flush;
+    std::string unused;
+    std::cout << "Would you like a brief pause between generations ('p'), have to press the enter key ('e'), or output to a file ('f')?: " << std::flush;
     response = getCharFromUser();
     if(response == 'p') {
         gol->start();
         while(!gol->getHasFinished()) {
             pause();
-            cout << '\n'; //Formatting
+            std::cout << '\n'; //Formatting
             gol->showCells(gol->getCurrent());
             gol->update();
         }
         pause(); //Pausing before displaying finished to maintain flow
-        cout << '\n'; //Formatting
+        std::cout << '\n'; //Formatting
     } else if (response == 'e') {
         gol->start();
-        cout << '\n'; //Formatting
+        std::cout << '\n'; //Formatting
         while(!gol->getHasFinished()) {
             gol->showCells(gol->getCurrent());
             gol->update();
-            getline(cin, unused); //Wait for return to show next update
+            getline(std::cin, unused); //Wait for return to show next update
         }
     } else if (response == 'f') {
-        string filename;
-        cout << "What file would you like to output to? ";
-        getline(cin, filename);
-        ofstream os(filename);
+        std::string filename;
+        std::cout << "What file would you like to output to? ";
+        getline(std::cin, filename);
+        std::ofstream os(filename);
         if(os.fail()) {
-            cout << "File '" + filename + "' could not be opened.  Exiting." << endl;
+            std::cout << "File '" + filename + "' could not be opened.  Exiting." << std::endl;
             exit(1);
         }
         gol->start();
@@ -140,9 +139,9 @@ int main(int argc, char** argv) {
     }
 
 
-    cout << "Finished." << endl;
-    cout << "Press enter to exit..." << flush;
-    getline(cin, unused);
+    std::cout << "Finished." << std::endl;
+    std::cout << "Press enter to exit..." << std::flush;
+    getline(std::cin, unused);
 
     return 0;
 }
@@ -153,8 +152,8 @@ int main(int argc, char** argv) {
 */
 char getCharFromUser() { //Accounting for bad input and clearing the buffer, Function taken from interterm c++ assignments
     char input;
-    cin >> input;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    std::cin >> input;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return input;
 }
 
@@ -163,21 +162,21 @@ char getCharFromUser() { //Accounting for bad input and clearing the buffer, Fun
     message: Message to reprompt with for another input
     Returns int value user typed in
 */
-int getIntFromUser(string message)
+int getIntFromUser(std::string message)
 {
     int input; //Declaring input inside the while loop would cause an error
     while(true) //Going to keep looping this until they enter valid input
     {
-        cout << message;
-        cin >> input;
-        if(cin.fail()) //Accounting for non-double input
+        std::cout << message;
+        std::cin >> input;
+        if(std::cin.fail()) //Accounting for non-double input
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         else
         {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
             return input;
         }
     }
@@ -188,21 +187,21 @@ int getIntFromUser(string message)
     message: Message to reprompt with for another input
     Returns double value user typed in
 */
-double getDoubleFromUser(string message)
+double getDoubleFromUser(std::string message)
 {
     double input; //Declaring input inside the while loop would cause an error
     while(true) //Going to keep looping this until they enter valid input
     {
-        cout << message;
-        cin >> input;
-        if(cin.fail()) //Accounting for non-double input
+        std::cout << message;
+        std::cin >> input;
+        if(std::cin.fail()) //Accounting for non-double input
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         else
         {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
             return input;
         }
     }
