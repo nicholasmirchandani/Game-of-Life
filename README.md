@@ -24,6 +24,7 @@ https://www.sciencebuddies.org/science-fair-projects/science-fair/variance-and-s
 http://www.cplusplus.com/reference/cmath/sqrt/<br/>
 http://www.cplusplus.com/reference/cctype/tolower/<br/>
 http://www.cplusplus.com/reference/cstdlib/exit/<br/>
+https://www.learncpp.com/cpp-tutorial/5-10-stdcin-extraction-and-dealing-with-invalid-text-input/<br/>
 My old C++ Assignments from last interterm (Specifically for getCharFromUser to clear the cin buffer)<br/>
 
 Instructions for running the assignment:

@@ -9,6 +9,7 @@ main.cpp is the driver, handling prompts and user inputs into GameOfLife
 */
 
 #include "GameOfLife.h"
+#include <limits>
 
 //Using column/row instead of row/column because column/row gives the familiar x/y
 using namespace std;
@@ -153,7 +154,7 @@ int main(int argc, char** argv) {
 char getCharFromUser() { //Accounting for bad input and clearing the buffer, Function taken from interterm c++ assignments
     char input;
     cin >> input;
-    cin.ignore(32767, '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return input;
 }
 
@@ -172,11 +173,11 @@ int getIntFromUser(string message)
         if(cin.fail()) //Accounting for non-double input
         {
             cin.clear();
-            cin.ignore(32767, '\n');
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
         else
         {
-            cin.ignore(32767, '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
             return input;
         }
     }
@@ -197,11 +198,11 @@ double getDoubleFromUser(string message)
         if(cin.fail()) //Accounting for non-double input
         {
             cin.clear();
-            cin.ignore(32767, '\n');
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
         else
         {
-            cin.ignore(32767, '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //ignoring everything left in cin's buffer in case it messes with the next user input
             return input;
         }
     }
