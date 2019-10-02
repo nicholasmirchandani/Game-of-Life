@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
     char response;
     while(true) {
         std::cout << "Would you classic mode ('c'), mirror mode ('m') or donut mode('d'): " << std::flush;
-        response = getCharFromUser();
+        response = tolower(getCharFromUser());
         if(response == 'c') {
             gamemode = new Classic();
         } else if (response == 'm') {
@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
     }
     while(true) {
         std::cout << "Would you like to read from a map file ('f') or randomly generate the board ('r')? " << std::flush;
-        response = getCharFromUser();
+        response = tolower(getCharFromUser());
         if(response == 'f') {
             std::string filepath;
                 std::cout << "Enter the file path: ";
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
                             std::cout << "WARNING: More characters in line " << rowNum + 3 << " than expected.  Discarding additional characters." << std::endl;
                             break;
                         }
-                        if(line[i] == 'X') { //If character is neither X nor -, cell starts with default isAlive value of dead
+                        if(line[i] == 'X' || line[i] == 'x') { //If character is neither X nor -, cell starts with default isAlive value of dead
                             //Cell is Alive
                             gol->getFuture()->getCell(i, rowNum)->setIsAlive(true);
                         } else if (line[i] == '-'){
@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
     std::string unused;
     while (true) {
         std::cout << "Would you like a brief pause between generations ('p'), have to press the enter key ('e'), or output to a file ('f')?: " << std::flush;
-        response = getCharFromUser();
+        response = tolower(getCharFromUser());
         if(response == 'p') {
             gol->start();
             while(!gol->getHasFinished()) {
